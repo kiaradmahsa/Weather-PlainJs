@@ -16,7 +16,6 @@ const updateUI = (data) => {
             <span>${weather.Temperature.Metric.Value}</span>
             <span>&deg;C</span>
         </div>
-            
     `;
 
     //day & night img
@@ -24,12 +23,6 @@ const updateUI = (data) => {
     icon.setAttribute('src',iconSrc);
 
     let timeSrc = weather.IsDayTime ? 'img/day.svg' : 'img/night.svg';
-    if(weather.IsDayTime){
-        timeSrc = 'img/day.svg';
-    }else {
-        timeSrc = 'img/night.svg';
-    }
-
     time.setAttribute('src',timeSrc);
 
 
@@ -63,4 +56,13 @@ cityForm.addEventListener('submit', e => {
     }).catch(err => {
         console.log(err);
     });
-})
+
+    //set local storage
+    localStorage.setItem('city', city);
+});
+
+if (localStorage.getItem('city') ){
+    updateCity(localStorage.getItem('city'))
+        .then(data => updateUI(data))
+        .catch(err => console.log(err));
+}
